@@ -124,16 +124,16 @@ class CashlogyAutomaticCashdrawerDriver(ThreadDriver):
             'payment_info_dict should be a dict'
         amount = int(payment_info_dict['amount'] * 100)  # amount is sent in cents to the cashdrawer
         operation_number = payment_info_dict.get('operation_number', '00001')  # Number to be able to track operation
-        display_accept_button = payment_info_dict.get('display_accept_button', '0')  # Allow the user to confirm the change given by customer
-        screen_on_top = payment_info_dict.get('screen_on_top', '0')  # Put the screen on top
-        see_customer_screen = payment_info_dict.get('see_customer_screen', '0')  # Display customer screen
+        display_accept_button = payment_info_dict.get('display_accept_button', False)  # Allow the user to confirm the change given by customer
+        screen_on_top = payment_info_dict.get('screen_on_top', False)  # Put the screen on top
+        see_customer_screen = payment_info_dict.get('see_customer_screen', False)  # Display customer screen
         message = "#C#%s#1#%s#%s#15#15#%s#1#%s#0#0#" % (operation_number,
                                                         amount,
-                                                        see_customer_screen,
-                                                        display_accept_button,
-                                                        screen_on_top)
+                                                        int(see_customer_screen),
+                                                        int(display_accept_button),
+                                                        int(screen_on_top))
         answer = self.send_to_cashdrawer(message)
-#         answer = "#0:LEVEL#1700#0#0#0#"
+#         answer = "#WR:LEVEL#1700#0#0#0#"
         return answer
 
 cashlogy_driver = CashlogyAutomaticCashdrawerDriver()
